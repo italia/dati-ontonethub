@@ -1,3 +1,15 @@
 ---
+version: '2'
 
-# This file is mandatory if your're building a new container - please remove instead it if it's not needed
+services:
+
+  ontonethub:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: pdnd-ontonethub
+    image: teamdigitale/pdnd-ontonethub
+    stdin_open: true
+    tty: true
+    ports:
+      - 8000:8080/tcp
