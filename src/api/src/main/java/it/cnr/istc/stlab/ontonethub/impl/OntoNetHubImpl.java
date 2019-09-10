@@ -72,6 +72,13 @@ import it.cnr.istc.stlab.ontonethub.job.IndexingJobInput;
 import it.cnr.istc.stlab.ontonethub.job.RDFIndexingJob;
 import it.cnr.istc.stlab.ontonethub.solr.OntoNetHubSiteManager;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
+
 /**
  * Default implementation of the {@link OntoNetHub}.<br>
  * Such an implementation provide an OSGi component for the OntoNetHub.
@@ -699,7 +706,24 @@ public class OntoNetHubImpl implements OntoNetHub {
 	
 	
 	private void doIndexing(String ontologyId, String name, String description, String iri){
-		Model model = FileManager.get().loadModel(iri);
+
+		/*
+		 * We do not rely on FileManager anymore
+		 * 
+		 * Model model = FileManager.get().loadModel(iri);
+		 */
+		
+		Model model = ModelFactory.createDefaultModel();
+		try {
+			URLConnection conn = new URL(iri).openConnection();
+			conn.addRequestProperty("Accept", "application/rdf+xml");
+			InputStream is = conn.getInputStream();
+			
+			
+			model.read(is, null, "RDF/XML");
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
 		
 		IndexingJobInput indexingJobInput = null;
 		if(ontologyId == null) indexingJobInput = new IndexingJobInput(name, description, iri, model);
