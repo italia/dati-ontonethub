@@ -688,7 +688,7 @@ public class IndexingJob extends AbstractIndexingJob {
 	
 	public static void main(String[] args) {
 		OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM);
-		ontModel.read("file:///Users/andrea/git/daf-ontologie-vocabolari-controllati/Ontologie/CPV/0.5/CPV-AP_IT.rdf");
+		ontModel.read("file:///Users/andrea/git/dati-semantic-assets/Ontologie/CPV/0.5/CPV-AP_IT.rdf");
 		
 		
 		String rules = "[r1: (?p2 rdfs:range ?c) <- (?p1 rdfs:subPropertyOf ?p2) (?p1 rdfs:range ?c)] "
